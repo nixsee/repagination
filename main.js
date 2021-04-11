@@ -159,6 +159,7 @@ function myinit(prefs) {
       process(info, tab.id);
     } else {
       console.log("injecting " + tab.id);
+      browser.tabs.executeScript(tab.id, { file: "browser-polyfill.js" } );
       browser.tabs.executeScript(tab.id, { file: "content-script.js" } );
       PENDING[tab.id] = info;
     }

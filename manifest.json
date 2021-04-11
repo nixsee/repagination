@@ -22,7 +22,7 @@
   },
 
   "background": {
-    "scripts": ["main.js"]
+    "scripts": ["browser-polyfill.js","main.js"]
   },
 
   "permissions": [
