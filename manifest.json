@@ -21,14 +21,23 @@
     }
   },
 
+
+  "content_scripts": [
+    {
+        "matches": ["<all_urls>"],
+        "js": ["clicked_element.js"]
+    }
+  ],
+
   "background": {
-    "scripts": ["main.js"]
+    "scripts": ["browser-polyfill.js","main.js"]
   },
 
   "permissions": [
     "activeTab",
     "storage",
     "menus",
+    "contextMenus",
     "<all_urls>"
   ]
 }
