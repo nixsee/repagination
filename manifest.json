@@ -21,6 +21,14 @@
     }
   },
 
+
+  "content_scripts": [
+    {
+        "matches": ["<all_urls>"],
+        "js": ["clicked_element.js"]
+    }
+  ],
+
   "background": {
     "scripts": ["browser-polyfill.js","main.js"]
   },
@@ -29,6 +37,7 @@
     "activeTab",
     "storage",
     "menus",
+    "contextMenus",
     "<all_urls>"
   ]
 }

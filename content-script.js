@@ -235,10 +235,6 @@ Repaginator.prototype = {
       delete this._title;
     }
   },
-  unregister: function R_unregister() {
-    port.postMessage({msg: "unregister"});
-    document.body.removeAttribute("repagination");
-  },
   repaginate: function R_repaginate() {
     this._title = document.title;
     this.setTitle();
@@ -254,7 +250,7 @@ Repaginator.prototype = {
       });
     }
     catch (ex) {
-      this.unregister();
+      stop();
       this.restoreTitle();
       console.error("repaginate failed", ex);
     }
@@ -378,7 +374,7 @@ Repaginator.prototype = {
     catch (ex) {
       console.log(ex);
       console.info("loadNext complete");
-      this.unregister();
+      stop();
       this.restoreTitle();
     }
   }
@@ -398,7 +394,7 @@ let repaginate = (target, num, slideshow, allowScripts, yielding) => {
   try {
     let Ctor = slideshow ? Slideshow : Repaginator;
     let rep;
-    focusElement = browser.menus.getTargetElement(target);
+    focusElement = clickedEl;
     rep = new Ctor(num, allowScripts, yielding);
     rep.buildQuery(focusElement);
     rep.repaginate();
@@ -410,12 +406,16 @@ let repaginate = (target, num, slideshow, allowScripts, yielding) => {
 
 let stop = () => {
   try {
+    port.disconnect();
+  } catch (ex) {
+    console.log(ex)
+  }
+  try {
     let body = document.body;
     if (body) {
       body.removeAttribute("repagination");
     }
-  }
-  catch (ex) {
+  } catch (ex) {
     console.error("failed to stop repagination", ex);
   }
 };
@@ -432,5 +432,5 @@ window.addEventListener('pagehide', function(event) {
   port.disconnect();
 });
 
-}  
+}
 /* vim: set et ts=2 sw=2 : */
